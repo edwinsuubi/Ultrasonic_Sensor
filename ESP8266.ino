@@ -64,3 +64,6 @@ void connectToWifi() {
 void esp8266Println(String command){
   esp8266.println(command);
   }
+
+  void sendATCommand(String command, int maxTime, char readReplay[]) {
+    }
