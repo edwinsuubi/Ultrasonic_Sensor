@@ -28,4 +28,6 @@ void testATcommands() { // MUST RUN ESP SETUP
     esp8266.write(Serial.read());
   }
 }
+void connectToWifi() {
 
+}
