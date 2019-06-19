@@ -28,6 +28,19 @@ void testATcommands() { // MUST RUN ESP SETUP
     esp8266.write(Serial.read());
   }
 }
+
+void sendDataToApi(String data) {
+  String getData = "GET /update?api_key=" + API + "&" + field + "=" + data;
+  sendATCommand("AT+CIPMUX=0", 5, "OK");
+  sendATCommand("AT+CIPSTART=\"TCP\",\"" + HOST + "\"," + PORT, 15, "OK"); // open connection at specified port in single conn mode
+  sendATCommand("AT+CIPSEND=" + String(getData.length() + 4), 8, ">");
+  esp8266Println(getData); // send the data
+  delay(1500);
+  countTrueCommand++;
+  sendATCommand("AT+CIPCLOSE", 8, "OK"); // close connection
+}
+
+
 void connectToWifi() {
   esp8266.println(F("AT+CIPSTA?")); // get IP address of ESP8266 Station
   delay(1000);
