@@ -61,9 +61,35 @@ void connectToWifi() {
   }
 }
 
-void esp8266Println(String command){
+void esp8266Println(String command) {
   esp8266.println(command);
+}
+
+void sendATCommand(String command, int maxTime, char readReplay[]) {
+  Serial.print(countTrueCommand);
+  Serial.print(". AT command => ");
+  Serial.print(command);
+  Serial.print(" ");
+  while (countTimeCommand < (maxTime * 1)) {
+    //     esp8266.println(command); //at+cipsend
+    esp8266Println(command); //at+cipsend
+    if (esp8266.find(readReplay)) { //ok
+      found = true;
+      break;
+    }
+    countTimeCommand++;
   }
 
-  void sendATCommand(String command, int maxTime, char readReplay[]) {
-    }
+  if (found) {
+    Serial.println("Pass");
+    countTrueCommand++;
+  }
+
+  if (!found) {
+    Serial.println("Fail");
+    countTrueCommand = 0;
+  }
+
+  countTimeCommand = 0;
+  found = false;
+}
