@@ -29,5 +29,21 @@ void testATcommands() { // MUST RUN ESP SETUP
   }
 }
 void connectToWifi() {
+  esp8266.println(F("AT+CIPSTA?")); // get IP address of ESP8266 Station
+  delay(1000);
+  while (esp8266.available()) {
+    String incomingString = esp8266.readString();
+    Serial.println(incomingString);
 
+    if (incomingString.indexOf("0.0.0.0") > 1) { // if No IP address
+      Serial.println("NO IP ADDRESS");
+      String cmdm = F("AT+CWJAP=\""); cmdm += netSSID; cmdm += F("\",\""); cmdm += psk; cmdm += F("\"");
+      // esp8266.println(cmdm);
+      esp8266Println(cmdm); // connect to network if NO IP Address is Found!
+      // sendATCommand("AT+CWJAP=\"" + AP + "\",\"" + PASS + "\"", 20, "OK"); // connect to network if NO IP Address is Found!
+    }
+    else {
+      wifiConnected = true;
+    }
+  }
 }
