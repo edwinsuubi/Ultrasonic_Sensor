@@ -60,3 +60,6 @@ void connectToWifi() {
     }
   }
 }
+
+void esp8266Println(String command){
+  }
